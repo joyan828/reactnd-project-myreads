@@ -1,14 +1,36 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import * as BooksAPI from './utils/BooksAPI'
+import BookCard from './BookCard'
 
 class Search extends React.Component {
+  state = {
+    query : ''
+  }
+
+  componentDidMount() {
+    this.props.onReset()
+  }
+
+  handleChange = event => {
+    this.setState({query: event.target.value})
+  }
+
+  handleSubmit = event => {
+    this.props.onSearch(event.target.value)
+  }
+
+  handleFormReset = () => {
+    this.setState({query: ''})
+  }
+
   render() {
+    const { books, onUpdate, onReset } = this.props;
+
     return (
           <div className="search-books">
             <div className="search-books-bar">
               <Link to='/'>
-                <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
+                <button className="close-search" onClick={onReset}>Close</button>
               </Link>
               <div className="search-books-input-wrapper">
                 {/*
@@ -19,12 +41,33 @@ class Search extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by title or author"/>
-
+                  <input 
+                    type="text" 
+                    placeholder="Search by title or author"
+                    onChange={this.handleChange}
+                    value={this.state.query}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        this.handleSubmit(e)
+                        this.handleFormReset()
+                      }
+                    }}
+                  />
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid"></ol>
+              <ol className="books-grid">
+                {books.length > 0 
+                ? books.map (book => (
+                  <BookCard 
+                    book={book}
+                    key={book.id}
+                    onUpdate={onUpdate}
+                  />
+                ))
+                : <div>No results</div>
+                }
+              </ol>
             </div>
           </div>
     )
