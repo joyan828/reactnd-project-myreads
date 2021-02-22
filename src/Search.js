@@ -1,10 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import BookCard from './BookCard'
+import Loading from './icons/loading.gif'
+import * as BooksAPI from './utils/BooksAPI'
 
 class Search extends React.Component {
   state = {
-    query : ''
+    query : '',
+    loading: false,
+    error: false
   }
 
   componentDidMount() {
@@ -16,11 +20,30 @@ class Search extends React.Component {
   }
 
   handleSubmit = event => {
-    this.props.onSearch(event.target.value)
+    this.searchBooks(event.target.value)
   }
 
   handleFormReset = () => {
     this.setState({query: ''})
+  }
+
+  searchBooks = query => {
+    this.props.onReset() 
+    this.setState({loading: true})
+
+    BooksAPI.search(query).then(result => {
+      if(result.error === "empty query") {
+        this.props.onReset()
+
+      } else if (result.error) {
+        this.setState({error: true})
+
+      } else {
+        this.props.onAddBooks(result)
+      }
+
+      this.setState({loading: false})
+    })
   }
 
   render() {
@@ -45,18 +68,17 @@ class Search extends React.Component {
                     type="text" 
                     placeholder="Search by title or author"
                     onChange={this.handleChange}
+                    onClick={this.handleFormReset}
                     value={this.state.query}
                     onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        this.handleSubmit(e)
-                        this.handleFormReset()
-                      }
+                      if (e.key === 'Enter') this.handleSubmit(e)
                     }}
                   />
               </div>
             </div>
             <div className="search-books-results">
               <ol className="books-grid">
+                
                 {books.length > 0 
                 ? books.map (book => (
                   <BookCard 
@@ -65,7 +87,12 @@ class Search extends React.Component {
                     onUpdate={onUpdate}
                   />
                 ))
-                : <div>No results</div>
+                : <div>
+                  { this.state.loading
+                  ? <img src={Loading} alt="loading" width="150px"/>
+                  : <p>No books available</p>
+                  }
+                </div>
                 }
               </ol>
             </div>

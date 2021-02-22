@@ -1,12 +1,27 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import BookShelf from './BookShelf'
+import * as BooksAPI from './utils/BooksAPI'
 
 const categories = ['Currently Reading', 'Want to Read', 'Read']
 
 class BookList extends React.Component {
+  state = {
+    loading: false,
+    error: false
+  }
+
   componentDidMount() {
-    this.props.fetchBooks()
+    this.fetchBooks()
+  }
+
+  fetchBooks = () => {
+    this.setState({loading: true})
+
+    BooksAPI.getAll().then(result => {
+      this.props.onAddBooks(result)
+      this.setState({loading: false})
+    })
   }
 
   render() {
@@ -18,10 +33,12 @@ class BookList extends React.Component {
             <div className="list-books-content">
               {categories.map((category, index) => {
                   return <BookShelf 
-                            onUpdate={this.props.onUpdate}
-                            books={this.props.books}
-                            category={category} 
-                            key={index}
+                            books= {this.props.books}
+                            loading= {this.state.loading}
+                            onUpdate= {this.props.onUpdate}
+                            onAddBooks= {this.props.onAddBooks}
+                            category= {category} 
+                            key= {index}
                           />
                 }) 
               }

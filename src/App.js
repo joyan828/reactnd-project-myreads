@@ -1,7 +1,7 @@
 import React from 'react'
 import './styles/App.css'
 import { Route } from 'react-router-dom'
-import * as BooksAPI from './utils/BooksAPI'
+// import * as BooksAPI from './utils/BooksAPI'
 import BookList from './BookList'
 import Search from './Search'
 
@@ -14,41 +14,14 @@ class BookApp extends React.Component {
     this.setState({books : []})
   }
 
-  fetchBooks = () => {
-    BooksAPI.getAll().then(result => {
-      // console.log(result);
-      this.setState({
-        books: result
-      })
-    })
+  addBooks = array => {
+    this.setState({books : array})
   }
 
-  updateBook = (givenBook, shelf) => {
-    BooksAPI.update(givenBook, shelf).then(result => {
-      if(result) {
-        givenBook.shelf = shelf; // not recommanded?
-
-        this.setState(prevState => ({
-          books: prevState.books.filter(book=> book.id !== givenBook.id).concat([givenBook])
-        }))
-      }
-    })
-  }
-
-  searchBooks = query => {
-    // console.log(query)
-    BooksAPI.search(query).then(result => {
-      if(result.error) {
-        console.log('result.error')
-        this.handleResetBooks();
-      } else {
-        console.log('result.error X')
-        console.log(result);
-        this.setState({
-          books: result
-        })
-      }
-    })
+  updateBook = givenBook => {
+    this.setState(prevState => ({
+      books: prevState.books.filter(book=> book.id !== givenBook.id).concat([givenBook])
+    }))
   }
 
   render() {
@@ -58,7 +31,7 @@ class BookApp extends React.Component {
         <Route exact path='/' render={() => (
           <BookList 
             books={books} 
-            fetchBooks={this.fetchBooks} 
+            onAddBooks={this.addBooks}
             onUpdate={this.updateBook}
           />
         )} />
@@ -66,7 +39,7 @@ class BookApp extends React.Component {
           <Search 
             books={books}
             onReset={this.handleResetBooks} 
-            onSearch={this.searchBooks}
+            onAddBooks={this.addBooks}
             onUpdate={this.updateBook}
           />
         )} />
