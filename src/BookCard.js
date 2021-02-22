@@ -29,12 +29,13 @@ class BookCard extends React.Component {
               <div className="book-top">   
                 <div className="book-cover-wrapper">
                   { book.imageLinks 
-                  ? <div className="book-cover" style={{ backgroundImage: `url("${book.imageLinks.smallThumbnail}")` }}></div>
-                  : <div className="book-cover" style={{ background: `url(${noImage}) center/100px no-repeat`}}></div>
+                    ? <div className="book-cover" style={{ backgroundImage: `url("${book.imageLinks.smallThumbnail}")` }}></div>
+                    : <div className="book-cover" style={{ background: `url(${noImage}) center/100px no-repeat`}}></div>
                   }
                   { this.state.loading &&
                     <div className="book-cover-loading"></div>
                   }
+                  { book.shelf && <div className="book-cover-mark">{book.shelf}</div>}
                 </div>
              
                 <div className="book-shelf-changer">

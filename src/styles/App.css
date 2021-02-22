@@ -193,6 +193,7 @@ button:active {
   height: 193px;
   position: relative;
   background: #f4f4f4;
+  overflow: hidden;
 }
 
 .book-cover {
@@ -218,4 +219,16 @@ button:active {
   height: 100%;
   background: rgba(0, 0, 0, 0.5) url("../icons/updating.gif") center/60px
     no-repeat;
+}
+
+.book-cover-mark {
+  position: absolute;
+  top: 30px;
+  left: 0px;
+  width: 180px;
+  height: 30px;
+  background: orange;
+  transform: rotate(45deg);
+  text-align: center;
+  line-height: 30px;
 }

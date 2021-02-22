@@ -21,6 +21,8 @@ class BookList extends React.Component {
     BooksAPI.getAll().then(result => {
       this.props.onAddBooks(result)
       this.setState({loading: false})
+
+      localStorage.setItem('books', JSON.stringify(result))
     })
   }
 

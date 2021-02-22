@@ -1,7 +1,6 @@
 import React from 'react'
 import './styles/App.css'
 import { Route } from 'react-router-dom'
-// import * as BooksAPI from './utils/BooksAPI'
 import BookList from './BookList'
 import Search from './Search'
 
@@ -22,6 +21,8 @@ class BookApp extends React.Component {
     this.setState(prevState => ({
       books: prevState.books.filter(book=> book.id !== givenBook.id).concat([givenBook])
     }))
+    
+    localStorage.setItem('books', JSON.stringify(this.state.books))
   }
 
   render() {

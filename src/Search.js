@@ -20,11 +20,24 @@ class Search extends React.Component {
   }
 
   handleSubmit = event => {
-    this.searchBooks(event.target.value)
+    const query = event.target.value.trim();
+
+    if(this.isValidate(query)) {
+      this.searchBooks(query)
+    } else {
+      alert('Please check the keyword.')
+    }
   }
 
   handleFormReset = () => {
     this.setState({query: ''})
+  }
+
+  isValidate = query => {
+    let regExp = /[(a-zA-Z0-9)]/gi 
+    if(regExp.test(query)) {
+      return true;
+    } 
   }
 
   searchBooks = query => {
@@ -39,11 +52,25 @@ class Search extends React.Component {
         this.setState({error: true})
 
       } else {
+        this.sortBooks(result)
         this.props.onAddBooks(result)
       }
 
       this.setState({loading: false})
     })
+  }
+
+  sortBooks = books => {
+    const booksOnShelves = JSON.parse(localStorage.getItem('books'))
+    for(const book of books) {
+      for(const bookOnShelf of booksOnShelves) { 
+        if(book.id === bookOnShelf.id) {
+          book.shelf = bookOnShelf.shelf
+        }
+      } 
+    }
+
+    return books
   }
 
   render() {
@@ -70,9 +97,7 @@ class Search extends React.Component {
                     onChange={this.handleChange}
                     onClick={this.handleFormReset}
                     value={this.state.query}
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') this.handleSubmit(e)
-                    }}
+                    onKeyDown={(e) => e.key === "Enter" && this.handleSubmit(e)}
                   />
               </div>
             </div>
@@ -89,8 +114,8 @@ class Search extends React.Component {
                 ))
                 : <div>
                   { this.state.loading
-                  ? <img src={Loading} alt="loading" width="150px"/>
-                  : <p>No books available</p>
+                    ? <img src={Loading} alt="loading" width="150px"/>
+                    : <div>No books available</div>
                   }
                 </div>
                 }
