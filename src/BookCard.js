@@ -1,5 +1,5 @@
 import React from 'react'
-import noImage from './icons/noimage.png';
+import noImage from './icons/noimage.png'
 import * as BooksAPI from './utils/BooksAPI'
 
 class BookCard extends React.Component {
@@ -23,9 +23,23 @@ class BookCard extends React.Component {
     })
   }
 
+  cutStringByCapital = string => {
+    let regExp = /[A-Z]/
+    let result;
+    if(regExp.test(string)) {
+      string.replace(/[A-Z]/, function(upp, i, st) {
+        result = st.substr(0, i).toUpperCase()
+      })
+    } else{
+      result = string.toUpperCase()
+    }
+    
+    return result;
+  }
+
   render() {
     const { book } = this.props;
-
+    
     return (
         <li>
           <div className="book">
@@ -38,7 +52,9 @@ class BookCard extends React.Component {
                   { this.state.loading &&
                     <div className="book-cover-loading"></div>
                   }
-                  { book.shelf && <div className="book-cover-mark">{book.shelf}</div>}
+                  { window.location.pathname === '/search' && book.shelf && 
+                    <div className="book-cover-mark">{this.cutStringByCapital(book.shelf)}</div>
+                  }
                 </div>
              
                 <div className="book-shelf-changer">
