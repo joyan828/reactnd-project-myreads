@@ -21,7 +21,7 @@ class BookApp extends React.Component {
     this.setState(prevState => ({
       books: prevState.books.filter(book=> book.id !== givenBook.id).concat([givenBook])
     }))
-    
+
     localStorage.setItem('books', JSON.stringify(this.state.books))
   }
 

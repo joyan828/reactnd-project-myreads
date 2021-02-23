@@ -11,11 +11,14 @@ class BookCard extends React.Component {
     this.setState({ loading: true })
 
     BooksAPI.update(givenBook, shelf).then(result => {
-      if(result) {
+      if(result && !result.error) {
         givenBook.shelf = shelf;  
         
         this.setState({ loading: false }) 
         this.props.onUpdate(givenBook)
+      } else {
+        this.setState({ loading: false }) 
+        alert('An error occured. Please try it again.')
       }
     })
   }

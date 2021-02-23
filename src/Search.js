@@ -45,15 +45,13 @@ class Search extends React.Component {
     this.setState({loading: true})
 
     BooksAPI.search(query).then(result => {
-      if(result.error === "empty query") {
+      if(result && result.error === "empty query") {
         this.props.onReset()
-
-      } else if (result.error) {
-        this.setState({error: true})
-
-      } else {
+      } else if(result) {
         this.sortBooks(result)
         this.props.onAddBooks(result)
+      } else {
+        this.setState({error: true})
       }
 
       this.setState({loading: false})
@@ -101,26 +99,28 @@ class Search extends React.Component {
                   />
               </div>
             </div>
-            <div className="search-books-results">
-              <ol className="books-grid">
-                
-                {books.length > 0 
-                ? books.map (book => (
-                  <BookCard 
-                    book={book}
-                    key={book.id}
-                    onUpdate={onUpdate}
-                  />
-                ))
-                : <div>
-                  { this.state.loading
-                    ? <img src={Loading} alt="loading" width="150px"/>
-                    : <div>No books available</div>
-                  }
+            { this.state.error 
+              ? <p style={{textAlign: 'center', marginTop: '80px'}}>An error occured. Please try it again.</p>
+              : <div className="search-books-results">
+                  <ol className="books-grid">
+                    {books.length > 0 
+                    ? books.map (book => (
+                      <BookCard 
+                        book={book}
+                        key={book.id}
+                        onUpdate={onUpdate}
+                      />
+                    ))
+                    : <div>
+                      { this.state.loading
+                        ? <img src={Loading} alt="loading" width="150px"/>
+                        : <div>No books available</div>
+                      }
+                    </div>
+                    }
+                  </ol>
                 </div>
-                }
-              </ol>
-            </div>
+            }
           </div>
     )
   }

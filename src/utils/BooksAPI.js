@@ -12,20 +12,20 @@ const headers = {
 }
 
 const handleError = (error) => {
-  if (error.message === 'Network Error' && !error.response) {
-        alert('Network error - make sure API is running!');
-      }
+  // alert(error)
 }
 
 export const get = (bookId) =>
   fetch(`${api}/books/${bookId}`, { headers })
     .then(res => res.json())
     .then(data => data.book)
+    .catch(error=> handleError(error))
 
 export const getAll = () =>
   fetch(`${api}/books`, { headers })
     .then(res => res.json())
     .then(data => data.books)
+    .catch(error=> handleError(error))
 
 export const update = (book, shelf) =>
   fetch(`${api}/books/${book.id}`, {
@@ -36,6 +36,7 @@ export const update = (book, shelf) =>
     },
     body: JSON.stringify({ shelf })
   }).then(res => res.json())
+    .catch(error=> handleError(error))
 
 export const search = (query) =>
   fetch(`${api}/search`, {
@@ -49,25 +50,4 @@ export const search = (query) =>
     .then(data => data.books)
     .catch(error => handleError(error))
 
-
-    // axios.interceptors.response.use(undefined, error => {
-    //   if (error.message === 'Network Error' && !error.response) {
-    //     toast.error('Network error - make sure API is running!');
-    //   }
-    //   const { status, data, config } = error.response;
-    //   if (status === 404) {
-    //     history.push('/notfound');
-    //   }
-    //   if (
-    //     status === 400 &&
-    //     config.method === 'get' &&
-    //     data.errors.hasOwnProperty('id')
-    //   ) {
-    //     history.push('/notfound');
-    //   }
-    //   if (status === 500) {
-    //     toast.error('Server error - check the terminal for more info!');
-    //   }
-    //   throw error.response;
-    // });
     
