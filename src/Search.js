@@ -1,10 +1,18 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import BookCard from './BookCard'
-import Loading from './icons/loading.gif'
+import Loading from './Loading'
 import * as BooksAPI from './utils/BooksAPI'
 
 class Search extends React.Component {
+  static propTypes = {
+    book: PropTypes.object,
+    onReset: PropTypes.func, 
+    onAddBooks: PropTypes.func,
+    onUpdate: PropTypes.func
+  }
+
   state = {
     query : '',
     loading: false,
@@ -20,7 +28,7 @@ class Search extends React.Component {
   }
 
   handleSubmit = event => {
-    const query = event.target.value.trim();
+    const query = event.target.value.trim()
 
     if(this.isValidate(query)) {
       this.searchBooks(query)
@@ -36,7 +44,7 @@ class Search extends React.Component {
   isValidate = query => {
     let regExp = /[(a-zA-Z0-9)]/gi 
     if(regExp.test(query)) {
-      return true;
+      return true
     } 
   }
 
@@ -111,12 +119,9 @@ class Search extends React.Component {
                         onUpdate={onUpdate}
                       />
                     ))
-                    : <div>
-                      { this.state.loading
-                        ? <img src={Loading} alt="loading" width="150px"/>
-                        : <div>No books available</div>
-                      }
-                    </div>
+                    : <Loading 
+                        loading= {this.state.loading} 
+                      />
                     }
                   </ol>
                 </div>

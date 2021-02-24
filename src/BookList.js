@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import BookShelf from './BookShelf'
 import * as BooksAPI from './utils/BooksAPI'
@@ -7,6 +8,12 @@ import ErrorBoundary from './ErrorBoundary'
 const categories = ['Currently Reading', 'Want to Read', 'Read']
 
 class BookList extends React.Component {
+  static propTypes = {
+    books: PropTypes.array,
+    onAddBooks: PropTypes.func,
+    onUpdate: PropTypes.func
+  }
+
   state = {
     loading: false
   }
@@ -39,7 +46,6 @@ class BookList extends React.Component {
                               books= {this.props.books}
                               loading= {this.state.loading}
                               onUpdate= {this.props.onUpdate}
-                              onAddBooks= {this.props.onAddBooks}
                               category= {category} 
                               key= {index}
                             />
