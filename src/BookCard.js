@@ -18,10 +18,12 @@ class BookCard extends React.Component {
 
     BooksAPI.update(givenBook, shelf).then(result => {
       if(result && !result.error) {
-        givenBook.shelf = shelf;  
-        
+        const copiedObj = Object.assign({}, givenBook)
+        copiedObj.shelf = shelf
+
         this.setState({ loading: false }) 
-        this.props.onUpdate(givenBook)
+        this.props.onUpdate(copiedObj)
+        
       } else {
         this.setState({ loading: false }) 
         alert('An error occured. Please try it again.')
@@ -40,7 +42,7 @@ class BookCard extends React.Component {
       result = string.toUpperCase()
     }
     
-    return result;
+    return result
   }
 
   render() {
@@ -58,7 +60,7 @@ class BookCard extends React.Component {
                   { this.state.loading &&
                     <div className="book-cover-loading"></div>
                   }
-                  { window.location.pathname === '/search' && book.shelf && 
+                  { window.location.pathname === '/search' && book.shelf && book.shelf !== "none" &&
                     <div className="book-cover-mark">{this.cutStringByCapital(book.shelf)}</div>
                   }
                 </div>
