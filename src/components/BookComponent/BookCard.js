@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import noImage from './icons/noimage.png'
-import * as BooksAPI from './utils/BooksAPI'
+import noImage from '../../icons/noimage.png'
+import * as BooksAPI from '../../utils/BooksAPI'
 
 class BookCard extends React.Component {
   static propTypes = {

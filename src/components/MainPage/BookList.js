@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import BookShelf from './BookShelf'
-import * as BooksAPI from './utils/BooksAPI'
-import ErrorBoundary from './ErrorBoundary'
+import * as BooksAPI from '../../utils/BooksAPI'
+import ErrorBoundary from '../ErrorMessage/ErrorBoundary'
 
 const categories = ['Currently Reading', 'Want to Read', 'Read']
 

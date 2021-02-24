@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import LoadingImg from './icons/loading.gif'
+import LoadingImg from '../../icons/loading.gif'
 
 export default function Loading ({loading}) {
     return (

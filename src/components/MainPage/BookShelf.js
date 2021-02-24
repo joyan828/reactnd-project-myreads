@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import BookCard from './BookCard'
-import Loading from './Loading'
+import BookCard from '../BookComponent/BookCard'
+import Loading from '../LoadingComponent/Loading'
 
 const BookShelf = props => {
   const { books, category, onUpdate, loading } = props;
