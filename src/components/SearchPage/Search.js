@@ -24,17 +24,14 @@ class Search extends React.Component {
   }
 
   handleChange = event => {
-    this.setState({query: event.target.value})
-  }
-
-  handleSubmit = event => {
     const query = event.target.value.trim()
+    this.setState({query})
 
     if(this.isValidate(query)) {
       this.searchBooks(query)
-    } else {
-      alert('Please check the keyword.')
-    }
+    } else if(query===null||query===undefined||query===''){
+        this.props.onAddBooks([])
+    } 
   }
 
   handleFormReset = () => {
@@ -103,7 +100,7 @@ class Search extends React.Component {
                     onChange={this.handleChange}
                     onClick={this.handleFormReset}
                     value={this.state.query}
-                    onKeyDown={(e) => e.key === "Enter" && this.handleSubmit(e)}
+                    // onKeyDown={(e) => e.key === "Enter" && this.handleSubmit(e)}
                   />
               </div>
             </div>
