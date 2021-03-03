@@ -5,18 +5,18 @@ import Loading from '../LoadingComponent/Loading'
 
 const BookShelf = props => {
   const { books, category, onUpdate, loading } = props;
-  const booksPerCategory = books.length > 0 && books.filter(book => 
+  const booksPerCategory = books.filter(book => 
     book.shelf.toLowerCase() === category.toLowerCase().replace(/ /g, "")
   )
 
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">
-        {`${category} (${booksPerCategory && booksPerCategory.length > 0 ? booksPerCategory.length : 0})`}
+        {`${category} (${booksPerCategory.length > 0 ? booksPerCategory.length : 0})`}
       </h2>
       <div className="bookshelf-books">
         <ol className="books-grid">
-          { booksPerCategory && booksPerCategory.length > 0 
+          { booksPerCategory.length > 0 
             ? booksPerCategory
               .map(book => (
                 <BookCard 
