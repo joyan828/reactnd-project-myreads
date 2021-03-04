@@ -24,7 +24,7 @@ class Search extends React.Component {
   }
 
   handleChange = event => {
-    const query = event.target.value.trim()
+    const query = event.target.value
     this.setState({query})
 
     if(this.isValidate(query)) {
