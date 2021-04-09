@@ -19,7 +19,7 @@ https://saeboman-reactnd-project.firebaseapp.com
 To install this project follow the instruction below:
 
 ```
-git clone https://github.com/joyan828/reactnd-project-myreads-starter.git
+git clone https://github.com/joyan828/reactnd-project-myreads.git
 cd reactnd-project-myreads
 npm install
 npm start
